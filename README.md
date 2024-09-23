@@ -82,36 +82,48 @@ Machine configuration: 2 CPUs, 8GB RAM.
 
 ### 실험 내용
 ```bash
-$ uptime
-..., load average: 0.11, 0.15, 0.09
+root@myserver1:/home/username# uptime
+14:20:17 up  5:13,  8 users,  load average: 1.24, 3.40, 2.46
 ```
 
 #### 시나리오 1
 ```bash
-$ stress --cpu 1 --timeout 600
+root@myserver1:/home/username# stress --cpu 1 --timeout 600
+stress: info: [7991] dispatching hogs: 1 cpu, 0 io, 0 vm, 0 hdd
 ```
 ```bash
 # the `-d` parameter indicates highlighting the changed areas
-$ watch -d uptime
-..., load average: 1.00, 0.75, 0.39
+root@myserver1:/home/username# watch -d uptime
+14:23:06 up  5:17,  8 users,  load average: 0.65, 2.10, 2.10
 ```
+![image](https://github.com/user-attachments/assets/286f4ca7-4791-4d8b-9f60-15dcd6f0d254)
+![image](https://github.com/user-attachments/assets/f2adbeb6-6953-4ff8-a047-5bb3b6070c18)
+
 #### 시나리오 2
 ```bash
-$ stress -i 1 --timeout 600
+root@myserver1:/home/username# stress -i 1 --timeout 600
+stress: info: [8262] dispatching hogs: 0 cpu, 1 io, 0 vm, 0 hdd
 ```
 ```bash
-$ watch -d uptime
-..., load average: 1.06, 0.58, 0.37
+root@myserver1:/home/username# watch -d uptime
+Every 2.0s: uptime      myserver1: Mon Sep 23 14:31:14 2024
+14:31:14 up  5:24,  8 users,  load average: 1.12, 1.90, 2.05
 ```
+![image](https://github.com/user-attachments/assets/f641028e-6b22-4cf3-9d76-31b1babfbea9)
+![image](https://github.com/user-attachments/assets/880fbd81-46a4-464d-bf5d-1045d446bcda)
 
 #### 시나리오 3
 ```bash
-$ stress -c 8 --timeout 600
+root@myserver1:/home/username# stress -c 8 --timeout 600
+stress: info: [8564] dispatching hogs: 8 cpu, 0 io, 0 vm, 0 hdd
 ```
 ```bash
-$ uptime
-..., load average: 7.97, 5.93, 3.02
+root@myserver1:/home/username# uptime
+14:35:57 up  5:29,  8 users,  load average: 4.67, 2.27, 2.08
 ```
+![image](https://github.com/user-attachments/assets/418d31dd-cbfc-4676-b1c7-d904b32bd968)
+![image](https://github.com/user-attachments/assets/d6dbffb3-4cbf-4902-9620-515657fa5d51)
+
 ## 5. 요약
 
 
