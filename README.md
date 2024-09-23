@@ -115,20 +115,29 @@ stress: info: [7991] dispatching hogs: 1 cpu, 0 io, 0 vm, 0 hdd
 ##### 전체 명령 요약
   **$ stress --cpu 1 --timeout 600**은 1개의 CPU 코어에 10분 동안 부하를 주는 명령입니다.
 
-
+##### 두 번째 터미널에서 uptime평균 부하의 변화를 확인
 ```bash
 # the `-d` parameter indicates highlighting the changed areas
 root@myserver1:/home/username# watch -d uptime
 14:23:06 up  5:17,  8 users,  load average: 0.65, 2.10, 2.10
+```
+
+##### 세 번째 터미널에서 mpstatCPU 사용량의 변화를 관찰
+```bash
+root@myserver1:/home/username# mpstat -P ALL 5
 ```
 ![image](https://github.com/user-attachments/assets/286f4ca7-4791-4d8b-9f60-15dcd6f0d254)
 터미널 2에서 평균 부하가 1분 동안 1.00으로 천천히 증가하는 것을 볼 수 있습니다. 터미널 3에
 서 한 CPU가 실제로 100% 사용 중이지만 iowait가 0인 것을 볼 수 있습니다. 이는 평균 부하가
 증가한 것이 CPU가 100% 사용 중이기 때문임을 나타냅니다.
 
+
+##### 세 번째 터미널에서 pidstat을 통해 프로세스 CPU 사용량 관찰
+```bash
+root@myserver1:/home/username# pidstat -u 5 1
+```
 ![image](https://github.com/user-attachments/assets/f2adbeb6-6953-4ff8-a047-5bb3b6070c18)
-
-
+어떤 프로세스가 CPU 사용량을 100%로 만들고 있을까? pidstat를 사용하여 다음을 확인할 수 있습니다.
 
 #### 시나리오 2
 ```bash
@@ -140,8 +149,19 @@ root@myserver1:/home/username# watch -d uptime
 Every 2.0s: uptime      myserver1: Mon Sep 23 14:31:14 2024
 14:31:14 up  5:24,  8 users,  load average: 1.12, 1.90, 2.05
 ```
+
+
+##### 세번째 터미널에서 mpstatCPU 사용량의 변화를 관찰하기 위해 실행합니다.
+```bash
+root@myserver1:/home/username# mpstat -P ALL 5 1
+```
 ![image](https://github.com/user-attachments/assets/f641028e-6b22-4cf3-9d76-31b1babfbea9)
+여기에서 평균 부하가 1분 동안 1.06으로 천천히 증가하는 것을 볼 수 있습니다. 한 CPU의 시스템 CPU 사용량이 11.90%로 증가하고 iowait는 46.28%에 도달합니다. 이는 평균 부하 증가가 iowait의 증가 때문임을 나타냅니다.
+
+
+##### 세 번째 터미널에서 pidstat을 통해 프로세스 CPU 사용량 관찰.
 ![image](https://github.com/user-attachments/assets/880fbd81-46a4-464d-bf5d-1045d446bcda)
+어떤 프로세스가 이렇게 높은 iowait를 발생시키고 있는지 pidstat를 사용하여 알아볼 수 있습니다.
 
 #### 시나리오 3
 ```bash
@@ -152,8 +172,15 @@ stress: info: [8564] dispatching hogs: 8 cpu, 0 io, 0 vm, 0 hdd
 root@myserver1:/home/username# uptime
 14:35:57 up  5:29,  8 users,  load average: 4.67, 2.27, 2.08
 ```
-![image](https://github.com/user-attachments/assets/418d31dd-cbfc-4676-b1c7-d904b32bd968)
+
+
+##### 세 번째 터미널에서 pidstat을 통해 프로세스 CPU 사용량 관찰.
+```bash
+root@myserver1:/home/username# pidstat -u 5 1
+```
 ![image](https://github.com/user-attachments/assets/d6dbffb3-4cbf-4902-9620-515657fa5d51)
+8개의 프로세스가 2개의 CPU를 놓고 경쟁하고 있으며, 각 프로세스가 최대 75%의 시간 동안 CPU를 기다리고 있는 것을 볼 수 있습니다( %wait출력의 열에서 표시). CPU의 계산 용량을 초과하는 이러한 프로세스는 궁극적으로 CPU 과부하로 이어집니다.
+
 
 ## 5. 요약
 
