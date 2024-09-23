@@ -91,13 +91,44 @@ root@myserver1:/home/username# uptime
 root@myserver1:/home/username# stress --cpu 1 --timeout 600
 stress: info: [7991] dispatching hogs: 1 cpu, 0 io, 0 vm, 0 hdd
 ```
+
+**`$ stress --cpu 1 --timeout 600`** 는 stress라는 명령어를 사용해 시스템에 CPU 부하를 걸기 위한 명령입니다.  
+
+위 명령어는 테스트나 성능 측정을 위해 시스템 리소스에 인위적인 부하를 줄 때 사용됩니다.  
+각 옵션과 숫자의 의미는 다음과 같습니다.
+
+
+##### 1. stress
+  `stress`는 시스템의 다양한 리소스(CPU, 메모리, 디스크 등)에 부하를 주는 도구입니다. 이를 통해 시스템의 성능이나 안정성을 테스트할 수 있습니다.
+  
+##### 2. --cpu 1
+  `--cpu N` 옵션은 CPU에 부하를 줄 때 사용하는 옵션입니다.  
+  이 경우, N은 부하를 걸 코어의 수를 나타냅니다.
+  **1**이라는 숫자는 1개의 CPU 코어에 부하를 걸겠다는 의미입니다.  
+  이를 통해 CPU가 얼마나 효율적으로 작동하는지 확인할 수 있습니다.
+  
+##### 3. --timeout 600
+  `--timeout N` 옵션은 주어진 시간 동안만 부하를 걸도록 설정하는 옵션입니다.  
+  **600**이라는 숫자는 600초, 즉 10분 동안 부하를 걸겠다는 의미입니다.  
+  이 시간이 지나면 명령이 자동으로 종료됩니다.
+
+##### 전체 명령 요약
+  **$ stress --cpu 1 --timeout 600**은 1개의 CPU 코어에 10분 동안 부하를 주는 명령입니다.
+
+
 ```bash
 # the `-d` parameter indicates highlighting the changed areas
 root@myserver1:/home/username# watch -d uptime
 14:23:06 up  5:17,  8 users,  load average: 0.65, 2.10, 2.10
 ```
 ![image](https://github.com/user-attachments/assets/286f4ca7-4791-4d8b-9f60-15dcd6f0d254)
+터미널 2에서 평균 부하가 1분 동안 1.00으로 천천히 증가하는 것을 볼 수 있습니다. 터미널 3에
+서 한 CPU가 실제로 100% 사용 중이지만 iowait가 0인 것을 볼 수 있습니다. 이는 평균 부하가
+증가한 것이 CPU가 100% 사용 중이기 때문임을 나타냅니다.
+
 ![image](https://github.com/user-attachments/assets/f2adbeb6-6953-4ff8-a047-5bb3b6070c18)
+
+
 
 #### 시나리오 2
 ```bash
