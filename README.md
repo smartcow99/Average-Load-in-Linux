@@ -1,20 +1,19 @@
 # Linux 시스템 부하 관련 학습 정리👀
 
 ## 목차
-1. [서론](#1.-서론)
-2. [Linux 평균 부하의 개념](#2.-Linux-평균-부하의-개념)
-3. [적당한 평균 부하란?](#3.-적당한-평균-부하란?)
-4. [사례 연구](#4.-사례-연구)
-5. [요약](#5.-요약)
+### 1. 서론
+### 2. Linux 평균 부하의 개념
+### 3. 적당한 평균 부하란?
+### 4. 사례 연구
+### 5. 요약
 
 ---
-
 
 ## 1. 서론
 
 시스템 속도가 느려지는 것을 확인하기 위해서 보통 ***`uptime`*** 이라는 명령어를 통해 다음과 같은 결과를 확인하고는 합니다.
 
-``` shell
+```bash
 $ uptime
 02:34:03 up 2 days, 20:14, 1 user, load average: 0.63, 0.83, 0.88
 ```
@@ -29,7 +28,7 @@ $ uptime
 
 **그렇다면 평균 부하라는 것은 과연 무엇을 의미하는 것일까요?**
 
-```
+```bash
 평균부하 = 활성 프로세스의 평균 수
 ```
 
@@ -47,7 +46,7 @@ $ uptime
 우리는 평균 부하에 대한 이상적인 상황은 CPU 수와 같을 떄라는 것을 알고 있습니다.  
 이 상황에서 저희는 먼저 CPU의 수를 알아야합니다.
 
-``` shell
+```bash
 grep 'Model Name' /proc/cpuinfo | wc-l 2
 ```
 
@@ -64,18 +63,55 @@ grep 'Model Name' /proc/cpuinfo | wc-l 2
 - 값이 비슷하거나 크게 다르지 않으면 시스템 부하가 안정적임을 나타냅니다.  
 - 1분 값이 15분 값보다 훨씬 낮은 경우, 부하가 감소하고 있음을 나타냅니다.  
 - 반대로 1분 값이 15분 값보다 훨씬 높으면 부하가 증가하고 있음을 나타냅니다.  
-- 1분 평균 부하가 CPU 수에 근접하거나 초과하면 시스템에 과부하가 발생했음을 의미합니다.  
+- 1분 평균 부하가 CPU 수에 근접하거나 초과하면 시스템에 과부하가 발생했음을 의미합니다.
+
+*실제 사례에서는 70% 수준으로 유지해야한다고 말하고 있습니다.*
 
 ## 4. 사례 연구🥽
 
+
+
 ### 준비 사항🛠
-```shell
+```bash
 $ sudo apt install stress, sysstat
 ```
-```
+```bash
 Machine configuration: 2 CPUs, 8GB RAM.
 ```
 
+
+### 실험 내용
+```bash
+$ uptime
+..., load average: 0.11, 0.15, 0.09
+```
+
+#### 시나리오 1
+```bash
+$ stress --cpu 1 --timeout 600
+```
+```bash
+# the `-d` parameter indicates highlighting the changed areas
+$ watch -d uptime
+..., load average: 1.00, 0.75, 0.39
+```
+#### 시나리오 2
+```bash
+$ stress -i 1 --timeout 600
+```
+```bash
+$ watch -d uptime
+..., load average: 1.06, 0.58, 0.37
+```
+
+#### 시나리오 3
+```bash
+$ stress -c 8 --timeout 600
+```
+```bash
+$ uptime
+..., load average: 7.97, 5.93, 3.02
+```
 ## 5. 요약
 
 
