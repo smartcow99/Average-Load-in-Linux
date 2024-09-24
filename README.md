@@ -1,5 +1,13 @@
 # Linux 시스템 부하 관련 학습 정리👀
 
+## 👨‍💻팀원
+## 👨‍💻Team
+
+|<img src="https://avatars.githubusercontent.com/u/139302518?v=4" width="100" height="100"/>|<img src="https://avatars.githubusercontent.com/u/78792358?v=4" width="100" height="100"/>|
+|:-:|:-:|
+|곽병찬<br/>[@gato-46](https://github.com/gato-46)|박현우<br/>[@smartcow99](https://github.com/smartcow99)|
+
+
 ## 목차
 ### 1. 서론
 ### 2. Linux 평균 부하의 개념
