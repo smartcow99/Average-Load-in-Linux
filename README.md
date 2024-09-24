@@ -1,6 +1,5 @@
 # Linux 시스템 부하 관련 학습 정리👀
 
-## 👨‍💻팀원
 ## 👨‍💻Team
 
 |<img src="https://avatars.githubusercontent.com/u/139302518?v=4" width="100" height="100"/>|<img src="https://avatars.githubusercontent.com/u/78792358?v=4" width="100" height="100"/>|
